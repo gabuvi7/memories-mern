@@ -12,7 +12,7 @@ app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 app.use("/posts", postRoutes);
 
-const CONNECTION_URL = `mongodb+srv://Gabuvi7:3111Gabuvi7@gabuvicluster.wexl1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+const CONNECTION_URL = `mongodb+srv://Gabuvi7:3111Gabuvi7@gabuvicluster.wexl1.mongodb.net/MemoriesDB?retryWrites=true&w=majority`;
 const PORT = process.env.PORT || 5000;
 
 mongoose
