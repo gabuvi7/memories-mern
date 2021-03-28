@@ -11,6 +11,7 @@ const Form = () => {
     title: "",
     tags: "",
     selectedFile: "",
+    message: "",
   });
   const classes = useStyles();
   const dispatch = useDispatch();
