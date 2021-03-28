@@ -9,14 +9,21 @@ import {
 } from "@material-ui/core";
 import { ThumbUpAlt, Delete, MoreHoriz } from "@material-ui/icons";
 import moment from "moment";
+import { useDispatch } from "react-redux";
+import { deletePost } from "../../../actions/posts";
 
 const Post = ({ post, setCurrentId }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const handleClick = () => {};
 
   const handleEditClick = () => {
     setCurrentId(post._id);
+  };
+
+  const handleDeleteClick = () => {
+    dispatch(deletePost(post._id));
   };
 
   return (
@@ -60,7 +67,7 @@ const Post = ({ post, setCurrentId }) => {
           Like
           {post.likeCount}
         </Button>
-        <Button size="small" color="primary" onClick={handleClick}>
+        <Button size="small" color="primary" onClick={handleDeleteClick}>
           <Delete fontSize="small" />
           Delete
         </Button>
