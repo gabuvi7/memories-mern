@@ -10,10 +10,14 @@ import {
 import { ThumbUpAlt, Delete, MoreHoriz } from "@material-ui/icons";
 import moment from "moment";
 
-const Post = ({ post }) => {
+const Post = ({ post, setCurrentId }) => {
   const classes = useStyles();
 
   const handleClick = () => {};
+
+  const handleEditClick = () => {
+    setCurrentId(post._id);
+  };
 
   return (
     <Card className={classes.card}>
@@ -29,7 +33,11 @@ const Post = ({ post }) => {
         </Typography>
       </div>
       <div className={classes.overlay2}>
-        <Button style={{ color: "white" }} size="small" onClick={handleClick}>
+        <Button
+          style={{ color: "white" }}
+          size="small"
+          onClick={handleEditClick}
+        >
           <MoreHoriz fontSize="default"></MoreHoriz>
         </Button>
       </div>
@@ -38,8 +46,11 @@ const Post = ({ post }) => {
           {post.tags.map((tag) => `#${tag}`)}
         </Typography>
       </div>
+      <Typography className={classes.title} variant="h6" gutterBottom>
+        {post.title}
+      </Typography>
       <CardContent>
-        <Typography className={classes.title} variant="h6" gutterBottom>
+        <Typography variant="h6" gutterBottom>
           {post.message}
         </Typography>
       </CardContent>
