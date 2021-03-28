@@ -1,11 +1,13 @@
 import useStyles from "./styles";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FileBase from "react-file-base64";
-import { useDispatch } from "react-redux";
-import { createPost } from "../../actions/posts";
+import { useDispatch, useSelector } from "react-redux";
+import { createPost, updatePost } from "../../actions/posts";
 
-const Form = () => {
+// We must get id post to update that
+
+const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
@@ -13,12 +15,23 @@ const Form = () => {
     selectedFile: "",
     message: "",
   });
+
+  //fetching data with redux:
+  const post = useSelector((state) =>
+    currentId ? state.posts.find((p) => p._id === currentId) : null
+  );
+
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createPost(postData));
+    if (currentId) {
+      dispatch(updatePost(currentId, postData));
+    } else {
+      dispatch(createPost(postData));
+    }
+    clearForm();
   };
 
   const handleChange = (type) => (e) => {
@@ -40,7 +53,21 @@ const Form = () => {
     }
   };
 
-  const clearForm = () => {};
+  const clearForm = () => {
+    setCurrentId(null);
+    setPostData({
+      creator: "",
+      title: "",
+      tags: "",
+      selectedFile: "",
+      message: "",
+    });
+  };
+
+  useEffect(() => {
+    console.log(post);
+    if (post) setPostData(post);
+  }, [post]);
 
   return (
     <Paper className={classes.paper}>
@@ -50,14 +77,16 @@ const Form = () => {
         className={classes.form}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h6">Creating a Memory</Typography>
+        <Typography variant="h6" style={{ marginBottom: "1rem" }}>
+          {!post ? "Create a" : `Update '${post.title}'`} Memory
+        </Typography>
         <TextField
           style={{ marginBottom: "1rem" }}
           name="creator"
           variant="outlined"
           label="Creator"
           fullWidth
-          value={postData.Creator}
+          value={postData.creator}
           onChange={handleChange("Creator")}
         ></TextField>
         <TextField
