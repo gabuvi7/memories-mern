@@ -1,5 +1,4 @@
 import logo from "./logo.svg";
-import "./App.css";
 import { Container, AppBar, Typography, Grow, Grid } from "@material-ui/core";
 import memories from "./images/memories.jpg";
 import Posts from "./components/Posts/Posts";
