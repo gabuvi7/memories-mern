@@ -46,7 +46,7 @@ const Form = ({ currentId, setCurrentId }) => {
         setPostData({ ...postData, message: e.target.value });
         break;
       case "Tags":
-        setPostData({ ...postData, tags: e.target.value });
+        setPostData({ ...postData, tags: e.target.value.split(',') });
         break;
       default:
         break;

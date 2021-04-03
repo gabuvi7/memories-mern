@@ -10,13 +10,18 @@ import {
 import { ThumbUpAlt, Delete, MoreHoriz } from "@material-ui/icons";
 import moment from "moment";
 import { useDispatch } from "react-redux";
-import { deletePost } from "../../../actions/posts";
+import { deletePost, updateLikePost } from "../../../actions/posts";
+import { useEffect, useState } from "react";
 
 const Post = ({ post, setCurrentId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const [like, updateLike] = useState(post.likeCount);
 
-  const handleClick = () => {};
+  const handleLikeClick = () => {
+    updateLike(post.likeCount + 1);
+    dispatch(updateLikePost(post._id));
+  };
 
   const handleEditClick = () => {
     setCurrentId(post._id);
@@ -25,6 +30,10 @@ const Post = ({ post, setCurrentId }) => {
   const handleDeleteClick = () => {
     dispatch(deletePost(post._id));
   };
+
+  useEffect(() => {
+    post.likeCount = like;
+  }, [like, post]);
 
   return (
     <Card className={classes.card}>
@@ -50,22 +59,21 @@ const Post = ({ post, setCurrentId }) => {
       </div>
       <div className={classes.details}>
         <Typography variant="body2" color="textSecondary">
-          {post.tags.map((tag) => `#${tag}`)}
+          {post.tags.map((tag) => `#${tag} `)}
         </Typography>
       </div>
       <Typography className={classes.title} variant="h6" gutterBottom>
         {post.title}
       </Typography>
       <CardContent>
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="body2" color="textSecondary" component="p">
           {post.message}
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        <Button size="small" color="primary" onClick={handleClick}>
+        <Button size="small" color="primary" onClick={handleLikeClick}>
           <ThumbUpAlt fontSize="small" />
-          Like
-          {post.likeCount}
+          &nbsp; Like &nbsp; {like}
         </Button>
         <Button size="small" color="primary" onClick={handleDeleteClick}>
           <Delete fontSize="small" />
