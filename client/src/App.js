@@ -35,7 +35,8 @@ function App() {
             container
             justify="space-between"
             alignItems="stretch"
-            spacing={4}
+            spacing={3}
+            flexDirection="column-reverse"
           >
             <Grid item xs={12} sm={7}>
               <Posts setCurrentId={setCurrentId} />
