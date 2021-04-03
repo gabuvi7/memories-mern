@@ -7,11 +7,14 @@ import useStyles from "./styles";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { getPosts } from "./actions/posts";
+import { useResizeScreen } from "./customHooks/useResizeScreen";
 
 function App() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [currentId, setCurrentId] = useState(null);
+  const { screen } = useResizeScreen();
+
   useEffect(() => {
     dispatch(getPosts());
   }, [currentId, dispatch]);
@@ -25,8 +28,8 @@ function App() {
           className={classes.image}
           src={memories}
           alt="memories"
-          height="60"
-          width="60"
+          height="50"
+          width="50"
         />
       </AppBar>
       <Grow in>
@@ -36,7 +39,9 @@ function App() {
             justify="space-between"
             alignItems="stretch"
             spacing={3}
-            flexDirection="column-reverse"
+            style={{
+              flexDirection: `${screen.sWidth <= 600 ? "column-reverse" : ""}`,
+            }}
           >
             <Grid item xs={12} sm={7}>
               <Posts setCurrentId={setCurrentId} />
