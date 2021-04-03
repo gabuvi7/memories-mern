@@ -54,16 +54,17 @@ export const deletePost = async (req, res) => {
 };
 
 export const updateLikePost = async (req, res) => {
-  const { id: _id } = req.params;
+  const { id } = req.params;
   const post = req.body;
+  console.log("post: ", post);
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send("No post with that id");
   try {
+    const post = await PostMessage.findById(id);
     const likedPost = await PostMessage.findByIdAndUpdate(
       id,
       {
-        likeCount: post.likeCount,
-        id,
+        likeCount: post.likeCount + 1,
       },
       { new: true }
     );
