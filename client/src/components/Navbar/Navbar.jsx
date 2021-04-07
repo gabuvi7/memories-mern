@@ -9,9 +9,8 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
-  //   const user = null;
   const history = useHistory();
-  const location = useLocation()
+  const location = useLocation();
 
   useEffect(() => {
     const token = user?.token;
