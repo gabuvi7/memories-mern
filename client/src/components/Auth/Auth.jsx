@@ -15,17 +15,36 @@ import useStyles from "./styles";
 import Icon from "./icon";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
+import { signIn, signUp } from "../../actions/auth";
+
+const initialState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 
 const Auth = () => {
   const classes = useStyles();
-  const state = null;
   const [isSignUp, switchMode] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState(initialState);
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleSubmit = () => {};
-  const handleChange = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (isSignUp) {
+      dispatch(signUp(formData, history));
+    } else {
+      dispatch(signIn(formData, history));
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleShowPassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -65,14 +84,14 @@ const Auth = () => {
             {isSignUp && (
               <>
                 <Input
-                  name="firstname"
+                  name="firstName"
                   label="First Name"
                   handleChange={handleChange}
                   autoFocus
                   half
                 />
                 <Input
-                  name="lastname"
+                  name="lastName"
                   label="Last Name"
                   handleChange={handleChange}
                   half
@@ -89,14 +108,16 @@ const Auth = () => {
               name="password"
               label="Password"
               handleShowPassword={handleShowPassword}
+              handleChange={handleChange}
               type={showPassword ? "text" : "password"}
               autoComplete="false"
             />
             {isSignUp && (
               <Input
-                name="repeatPassword"
+                name="confirmPassword"
                 label="Confirm Password"
                 handleShowPassword={handleShowPassword}
+                handleChange={handleChange}
                 type={showPassword ? "text" : "password"}
               />
             )}
