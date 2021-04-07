@@ -34,17 +34,19 @@ const Auth = () => {
   const handleSwitchMode = () => {
     switchMode((lastMode) => !lastMode);
   };
+
   const googleSuccess = async (res) => {
     const result = res?.profileObj;
     const token = res?.tokenId;
     try {
-      dispatch({ type: "AUTH", data: { result, token } });
+      dispatch({ data: { result, token }, type: "AUTH" });
       history.push("/");
+
+      console.log(res);
+      console.log("Google signin was successful.");
     } catch (error) {
       console.log(error);
     }
-    console.log(res);
-    console.log("Google signin was successful.");
   };
   const googleFailure = (error) => {
     console.log(error);

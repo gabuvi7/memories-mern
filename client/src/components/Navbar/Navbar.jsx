@@ -18,9 +18,9 @@ const Navbar = () => {
   }, [location]);
 
   const handleLogout = () => {
-    dispatch({ type: "LOGOUT" });
-    setUser(null);
+    dispatch({ data: null, type: "LOGOUT" });
     history.push("/");
+    setUser(null);
   };
 
   return (
