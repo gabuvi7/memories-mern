@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
@@ -26,20 +25,20 @@ export const signIn = async (req, res) => {
 };
 
 export const signUp = async (req, res) => {
-  const { email, password, confirmPassword, firstname, lastname } = req.body;
-
+  const { firstName, lastName, email, password, confirmPassword } = req.body;
   try {
-    const existingUser = await User.findOne(email);
+    const existingUser = await User.findOne({ email });
+
     if (existingUser)
       return res.status(400).json({ message: "The user already exists" });
     if (password !== confirmPassword)
       return res.status(400).json({ message: "The passwords don't match" });
     const hashedPassword = await bcrypt.hash(password, 12);
     const result = await User.create({
+      firstname: firstName,
+      lastname: lastName,
       email: email,
       password: hashedPassword,
-      firstname: firstname,
-      lastname: lastname,
     });
 
     const token = jwt.sign(
@@ -50,6 +49,7 @@ export const signUp = async (req, res) => {
 
     res.status(200).json({ result: result, token });
   } catch (error) {
+    console.log("paso 1 error: ", error);
     res.status(500).json({ message: "Something went wrong." });
   }
 };
